@@ -26,8 +26,19 @@
             color: #242b2e;
             background: #cbcbcb;
         }
+        .product > img{
+            width: 100%;
+        }
     </style>
     <div class="product">
+        {% if product.image %}
+            <img src="/media/{{ product.image }}/" alt="fd" class="product-image">
+        {% else %}
+            <img src="/media/img404.png" alt="fd" class="product-image">
+        {% endif %}
+        {% for category in categorys %}
+        <h3><a href="/products/?category={{ category.id }}">{{ category.name }}</a></h3>
+        {% endfor %}
         <h1>{{ product.title }}</h1>
         <h5>{{ product.description }}</h5>
         <div class="dates">

@@ -10,11 +10,20 @@
     flex-wrap: wrap;
     padding: 15px;
     }
+    .product-image{
+        width: 100%;
+        height: 200px;
+    }
 </style>
 <div class="product-card">
 {% for product in products %}
     <div class="card" style="width: 18rem;">
         <div class="card-body">
+            {% if product.image %}
+                <img src="/media/{{ product.image }}/" alt="fd" class="product-image">
+            {% else %}
+                <img src="/media/img404.png" alt="fd" class="product-image">
+            {% endif %}
             <h5 class="card-title">{{product.title}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{product.date}}</h6>
             <a href="/products/{{product.id}}/" class="card-link">More</a>
