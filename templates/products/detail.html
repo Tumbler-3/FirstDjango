@@ -1,41 +1,47 @@
 {% extends 'layouts/index.html' %}
 
 {% block content %}
-    <style type="text/css">
-        .product {
-            width: 80%;
-            margin-left: 10%;
-        }
+<style type="text/css">
+    .product {
+        width: 80%;
+        margin-left: 10%;
+    }
 
-        .product > h5 {
-            margin-top: 20px;
-        }
+    .product>h5 {
+        margin-top: 20px;
+    }
 
-        .dates {
-            display: flex;
-            justify-content: space-between;
-        }
-        .reviews {
-            margin-top: 20px;
-        }
-        .review_block {
-            margin-top: 10px;
-            height: max-content;
-            padding: 10px;
-            border: 1px solid #242b2e;
-            color: #242b2e;
-            background: #cbcbcb;
-        }
-        .product > img{
-            width: 100%;
-        }
-    </style>
-    <div class="product">
+    .dates {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .reviews {
+        margin-top: 20px;
+    }
+
+    .review_block {
+        margin-top: 10px;
+        height: max-content;
+        padding: 10px;
+        border: 1px solid #242b2e;
+        color: #242b2e;
+        background: #cbcbcb;
+    }
+
+    .product-image {
+        width: 100%;
+    }
+</style>
+<div class="product">
+    <div class="image">
         {% if product.image %}
-            <img src="/media/{{ product.image }}/" alt="fd" class="product-image">
+        <img src="/media/{{ product.image }}/" alt="fd" class="product-image">
         {% else %}
-            <img src="/media/img404.png" alt="fd" class="product-image">
+        <img src="/media/img404.png" alt="fd" class="product-image">
         {% endif %}
+    </div>
+    <div>
         {% for category in categorys %}
         <h3><a href="/products/?category={{ category.id }}">{{ category.name }}</a></h3>
         {% endfor %}
@@ -45,12 +51,20 @@
             <h5>{{ product.date }}</h5>
         </div>
         <div class="reviews">
+            <div class="create">
+                <form action="/products/{{ product.id }}/" method="post">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <p>Submit</p>
+                    <input type="submit" class="btn-primary">
+                </form>
+            </div>
             {% for review in reviews %}
-                <div class="review_block">
-                    <h6>{{ review.text }}</h6>
-                </div>
+            <div class="review_block">
+                <h6>{{ review.text }}</h6>
+            </div>
             {% endfor %}
         </div>
     </div>
+</div>
 {% endblock %}
-    
