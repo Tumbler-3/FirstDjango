@@ -52,6 +52,7 @@
             <h5>{{ product.date }}</h5>
         </div>
         <div class="reviews">
+            {% if user %}
             <div class="create">
                 <form action="/products/{{ product.id }}/" method="post">
                     {% csrf_token %}
@@ -60,6 +61,7 @@
                     <input type="submit" class="btn-primary">
                 </form>
             </div>
+            {%endif%}
             {% for review in reviews %}
             <div class="review_block">
                 <h4>{{ review.reviewer }}</h4>
