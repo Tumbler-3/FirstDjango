@@ -1,0 +1,9 @@
+{% extends 'layouts/index.html' %}
+
+{% block content %}
+<form action="/login/" method="post">
+    {% csrf_token %}
+    {{login.as_p}}
+    <input type="submit" value="Login">
+</form>
+{% endblock %}

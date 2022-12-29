@@ -1,6 +1,7 @@
 from django import forms
 import datetime
 
+
 class CreateProduct(forms.Form):
     title = forms.CharField(min_length=5)
     description = forms.CharField(widget=forms.Textarea())

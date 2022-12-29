@@ -46,6 +46,7 @@
         <h3><a href="/products/?category={{ category.id }}">{{ category.name }}</a></h3>
         {% endfor %}
         <h1>{{ product.title }}</h1>
+        <h2>{{ product.seller }}</h2>
         <h5>{{ product.description }}</h5>
         <div class="dates">
             <h5>{{ product.date }}</h5>
@@ -61,6 +62,7 @@
             </div>
             {% for review in reviews %}
             <div class="review_block">
+                <h4>{{ review.reviewer }}</h4>
                 <h6>{{ review.text }}</h6>
             </div>
             {% endfor %}

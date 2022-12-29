@@ -8,6 +8,9 @@ def main(request):
 
 
 def products_view(request):
+
+    user = None if request.user.is_anonymous else request.user
+
     if request.method == 'GET':
 
         category_id = request.GET.get('category')
@@ -18,13 +21,17 @@ def products_view(request):
             products = Product.objects.all()
 
         context = {
-            'products': products
+            'products': products,
+            'user': user,
         }
 
         return render(request, 'products/products.html', context=context)
 
 
 def product_detail_view(request, id):
+
+    user = None if request.user.is_anonymous else request.user
+
     if request.method == 'GET':
         product = Product.objects.get(id=id)
         context = {
@@ -32,6 +39,7 @@ def product_detail_view(request, id):
             'reviews': product.reviews.all(),
             'categorys': product.category.all(),
             'comment_form': CreateReview,
+            'user': user,
             }
         return render(request, 'products/detail.html', context=context)
     
@@ -41,6 +49,7 @@ def product_detail_view(request, id):
 
         if form.is_valid():
             Review.objects.create(
+                reviewer=request.user,
                 product=product,
                 text=form.cleaned_data.get('text')
             )
@@ -52,22 +61,33 @@ def product_detail_view(request, id):
             'reviews': product.reviews.all(),
             'categorys': product.category.all(),
             'comment_form': form,
+            'user': user,
             }
             return render(request, 'products/detail.html', context=context)
 
 
 def all_categories_view(request):
+
+    user = None if request.user.is_anonymous else request.user
+
     if request.method == 'GET':
         context = {
-            'categorys': Category.objects.all()
+            'categorys': Category.objects.all(),
+            'user': user,
         }
         return render(request, 'categories/categories.html', context=context)
 
 
 def product_create_view(request):
+
+    user = None if request.user.is_anonymous else request.user
+
     if request.method == 'GET':
 
-        context = {'form': CreateProduct}
+        context = {
+            'form': CreateProduct,
+            'user': user,
+            }
 
         return render(request, 'products/create.html',context=context)
     
@@ -76,6 +96,7 @@ def product_create_view(request):
         
         if form.is_valid():
             Product.objects.create(
+                seller=request.user,
                 title=form.cleaned_data.get('title'),
                 description=form.cleaned_data.get('description')
             )
@@ -84,6 +105,9 @@ def product_create_view(request):
         
         else:
 
-            context = {'form': form}
+            context = {
+                'form': form,
+                'user': user,
+                }
 
             return render(request, 'products/create.html',context=context)
