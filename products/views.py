@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from products.models import Product, Category, Review
 from products.forms import CreateProduct, CreateReview
-
-
-PAGINATION_LIMIT = 3
+from products.constants import PAGINATION_LIMIT
 
 
 def main(request):
