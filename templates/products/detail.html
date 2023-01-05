@@ -1,38 +1,11 @@
 {% extends 'layouts/index.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'detail.css' %}">
+{% endblock head %}
 
 {% block content %}
-<style type="text/css">
-    .product {
-        width: 80%;
-        margin-left: 10%;
-    }
-
-    .product>h5 {
-        margin-top: 20px;
-    }
-
-    .dates {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .reviews {
-        margin-top: 20px;
-    }
-
-    .review_block {
-        margin-top: 10px;
-        height: max-content;
-        padding: 10px;
-        border: 1px solid #242b2e;
-        color: #242b2e;
-        background: #cbcbcb;
-    }
-
-    .product-image {
-        width: 100%;
-    }
-</style>
 <div class="product">
     <div class="image">
         {% if product.image %}

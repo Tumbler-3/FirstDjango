@@ -2,23 +2,26 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from users.forms import LoginForm, RegistrationForm
 from django.contrib.auth.models import User
+from django.views.generic import ListView
 
 
-def login_view(request):
+class LoginView(ListView):
+    template_name='users/login.html'
 
-    if request.method == 'GET':
-
-        user = None if request.user.is_anonymous else request.user
-
+    def get_context_data(self, **kwargs):
         context = {
-            'login': LoginForm,
-            'user': user,
+            'login': kwargs['login'],
+            'user': kwargs['user'],
         }
-
-        return render(request, 'users/login.html', context=context)
+        return context
     
-    if request.method == 'POST':
-
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, context=self.get_context_data(
+            login=LoginForm,
+            user=None if request.user.is_anonymous else request.user
+        ))
+    
+    def post(self, request, **kwargs):
         form = LoginForm(data=request.POST)
 
         if form.is_valid():
@@ -34,23 +37,29 @@ def login_view(request):
             else:
                 form.add_error('username', 'username or password is incorrect')
 
-        return render(request, 'users/login.html', context={'login': form, 'user': user,})
+        return render(request, self.template_name, context=self.get_context_data(
+            form=form,
+            user=None if request.user.is_anonymous else request.user
+        ))
 
 
-def registration_view(request):
+class RegistrationView(ListView):
+    template_name='users/registration.html'
 
-    user = None if request.user.is_anonymous else request.user
-
-    if request.method == 'GET':
-
+    def get_context_data(self, **kwargs):
         context = {
-            'registration': RegistrationForm,
-            'user': user,
+            'registration': kwargs['registration'],
+            'user': kwargs['user'],
         }
-
-        return render(request, 'users/registration.html', context=context)
+        return context
     
-    if request.method == 'POST':
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, context=self.get_context_data(
+            registration=RegistrationForm,
+            user=None if request.user.is_anonymous else request.user,
+        ))
+
+    def post(self, request, **kwargs):
         form = RegistrationForm(data=request.POST)
 
         if form.is_valid():
@@ -67,7 +76,10 @@ def registration_view(request):
             else:
                 form.add_error('confirm__password', 'passwords are different')
         
-        return render(request, 'users/registration.html', context={'registration': form, 'user': None,})
+        return render(request, self.template_name, context=self.get_context_data(
+            registration=form,
+            user=None,
+        ))
 
 
 def logout_view(request):

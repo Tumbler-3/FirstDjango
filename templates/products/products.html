@@ -1,21 +1,13 @@
 {% extends 'layouts/index.html' %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'products.css' %}">
+{% endblock head %}
+
 
 {% block content %}
-<style type="text/css">
-    .product-card {
-        display: flex;
-        justify-content: space-between;
-        width: 80%;
-        margin-left: 10%;
-        flex-wrap: wrap;
-        padding: 15px;
-    }
-
-    .product-image {
-        width: 100%;
-        height: 200px;
-    }
-</style>
 <div class="search">
     <form action="/products/" method="get">
         <input type="text" name="search" id="">
